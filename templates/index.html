@@ -1,0 +1,746 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>African Social Media Influencer Hub</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/typed.js/2.0.12/typed.min.js"></script>
+    <script src="https://unpkg.com/splitting@1.0.6/dist/splitting.js"></script>
+    <link rel="stylesheet" href="https://unpkg.com/splitting@1.0.6/dist/splitting.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/echarts/5.4.3/echarts.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@splidejs/splide@4.1.4/dist/js/splide.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@splidejs/splide@4.1.4/dist/css/splide.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+        
+        * {
+            font-family: 'Inter', sans-serif;
+        }
+        
+        .glass {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 16px;
+        }
+        
+        .glass-dark {
+            background: rgba(67, 67, 67, 0.3);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(247, 127, 0, 0.2);
+            border-radius: 16px;
+        }
+        
+        .hero-bg {
+            background: linear-gradient(135deg, #434343 0%, #2a2a2a 50%, #434343 100%);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .hero-bg::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('resources/hero-workspace.png') center/cover;
+            opacity: 0.4;
+            z-index: 1;
+        }
+        
+        .hero-content {
+            position: relative;
+            z-index: 2;
+        }
+        
+        .gradient-text {
+            background: linear-gradient(135deg, #F77F00, #FF8C1A);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .particle {
+            position: absolute;
+            width: 6px;
+            height: 6px;
+            background: rgba(247, 127, 0, 0.7);
+            border-radius: 50%;
+            animation: float 6s ease-in-out infinite;
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(180deg); }
+        }
+        
+        .nav-link {
+            transition: all 0.3s ease;
+            position: relative;
+        }
+        
+        .nav-link:hover {
+            color: #F77F00;
+            transform: translateY(-2px);
+        }
+        
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: #F77F00;
+            transition: width 0.3s ease;
+        }
+        
+        .nav-link:hover::after {
+            width: 100%;
+        }
+        
+        .nav-link.active {
+            color: #F77F00;
+        }
+        
+        .nav-link.active::after {
+            width: 100%;
+        }
+        
+        .cta-button {
+            background: linear-gradient(135deg, #F77F00, #E66D00);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .cta-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(247, 127, 0, 0.4);
+        }
+        
+        .cta-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: left 0.5s;
+        }
+        
+        .cta-button:hover::before {
+            left: 100%;
+        }
+        
+        .speaker-card {
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .speaker-card:hover {
+            transform: translateY(-8px) rotateX(5deg);
+            box-shadow: 0 20px 40px rgba(247, 127, 0, 0.2);
+        }
+        
+        .speaker-card img {
+            transition: all 0.3s ease;
+        }
+        
+        .speaker-card:hover img {
+            transform: scale(1.05);
+        }
+        
+        .service-card {
+            transition: all 0.3s ease;
+        }
+        
+        .service-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 15px 35px rgba(247, 127, 0, 0.2);
+        }
+        
+        .partner-logo {
+            transition: all 0.3s ease;
+            filter: grayscale(100%);
+        }
+        
+        .partner-logo:hover {
+            filter: grayscale(0%);
+            transform: scale(1.1);
+        }
+        
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 1000;
+            backdrop-filter: blur(10px);
+        }
+        
+        .modal.active {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .modal-content {
+            max-width: 90vw;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+        
+        .african-pattern {
+            background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23F77F00' fill-opacity='0.1'%3E%3Ccircle cx='30' cy='30' r='4'/%3E%3Ccircle cx='10' cy='10' r='2'/%3E%3Ccircle cx='50' cy='10' r='2'/%3E%3Ccircle cx='10' cy='50' r='2'/%3E%3Ccircle cx='50' cy='50' r='2'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+        }
+        
+        /* Mobile Navigation Styles */
+        .mobile-menu {
+            display: none;
+            position: fixed;
+            top: 80px;
+            left: 0;
+            right: 0;
+            background: rgba(67, 67, 67, 0.95);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(247, 127, 0, 0.2);
+            z-index: 40;
+            padding: 1rem;
+        }
+        
+        .mobile-menu.active {
+            display: block;
+        }
+        
+        .mobile-menu .nav-link {
+            display: block;
+            padding: 1rem;
+            margin: 0.5rem 0;
+            text-align: center;
+            border-radius: 12px;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+            padding: 4px;
+        }
+        
+        .hamburger span {
+            width: 25px;
+            height: 3px;
+            background: white;
+            margin: 3px 0;
+            transition: 0.3s;
+            border-radius: 2px;
+        }
+        
+        .hamburger.active span:nth-child(1) {
+            transform: rotate(-45deg) translate(-5px, 6px);
+        }
+        
+        .hamburger.active span:nth-child(2) {
+            opacity: 0;
+        }
+        
+        .hamburger.active span:nth-child(3) {
+            transform: rotate(45deg) translate(-5px, -6px);
+        }
+        
+        @media (max-width: 768px) {
+            .hamburger {
+                display: flex;
+            }
+            
+            .glass {
+                backdrop-filter: blur(10px);
+            }
+            
+            .speaker-card:hover {
+                transform: translateY(-4px);
+            }
+            
+            .mobile-menu .nav-link {
+                font-size: 1.1rem;
+                padding: 1.25rem;
+            }
+        }
+    </style>
+</head>
+<body class="bg-gray-900 text-white overflow-x-hidden">
+    <!-- Navigation -->
+    <nav class="fixed top-0 left-0 right-0 z-50 p-4">
+        <div class="glass mx-auto max-w-6xl px-6 py-4">
+            <div class="flex items-center justify-between">
+                <div class="text-xl font-bold gradient-text">African Influencer Hub</div>
+                
+                <!-- Desktop Navigation -->
+                <div class="hidden md:flex space-x-8">
+                    <a href="#home" class="nav-link text-white hover:text-orange-400">Home</a>
+                    <a href="#addis-ababa" class="nav-link text-white hover:text-orange-400">Addis Ababa</a>
+                    <a href="#partner" class="nav-link text-white hover:text-orange-400">Partner with us</a>
+                    <a href="#registration" class="nav-link text-white hover:text-orange-400">Registration</a>
+                </div>
+                
+                <!-- Mobile Hamburger Menu -->
+                <div class="hamburger" id="hamburger">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Mobile Navigation Menu -->
+        <div class="mobile-menu" id="mobile-menu">
+            <div class="max-w-6xl mx-auto px-6">
+                <a href="#home" class="nav-link text-white hover:text-orange-400 block">Home</a>
+                <a href="#addis-ababa" class="nav-link text-white hover:text-orange-400 block">Addis Ababa</a>
+                <a href="#partner" class="nav-link text-white hover:text-orange-400 block">Partner with us</a>
+                <a href="#registration" class="nav-link text-white hover:text-orange-400 block">Registration</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero-bg min-h-screen flex items-center justify-center pt-20 african-pattern">
+        <div class="hero-content container mx-auto px-6 text-center">
+            <div class="max-w-4xl mx-auto">
+                <div class="glass-dark p-12 mb-8">
+                    <h1 class="text-4xl md:text-6xl font-bold mb-6 gradient-text" data-splitting>
+                        African Social Media Influencer Hub
+                    </h1>
+                    <div class="text-xl md:text-2xl text-gray-300 mb-8">
+                        <span id="typed-text"></span>
+                    </div>
+                    <p class="text-lg text-gray-400 mb-8 leading-relaxed">
+                        Connecting brands with Africa's most influential voices. From Addis Ababa to Cape Town, 
+                        we bridge the gap between authentic African storytelling and global brand engagement.
+                    </p>
+                    <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                        <a href="#registration" class="cta-button px-8 py-4 rounded-lg font-semibold text-white">
+                            Join Our Network
+                        </a>
+                        <a href="#partner" class="glass px-8 py-4 rounded-lg font-semibold text-white hover:bg-white/20 transition-all">
+                            Partner With Us
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Floating Particles -->
+        <div id="particles"></div>
+    </section>
+
+    <!-- Keynote Speakers Section -->
+    <section id="speakers" class="py-20 bg-gray-800/50">
+        <div class="container mx-auto px-6">
+            <h2 class="text-3xl md:text-4xl font-bold text-center mb-16 gradient-text">Keynote Speakers</h2>
+            <div class="splide" id="speakers-carousel">
+                <div class="splide__track">
+                    <ul class="splide__list">
+                        <li class="splide__slide">
+                            <div class="speaker-card glass p-6 mx-4" data-speaker="amara-ojemba">
+                                <div class="mb-4 overflow-hidden rounded-lg">
+                                    <img src="https://kimi-web-img.moonshot.cn/img/blacknet.co.uk/646d9592b5b12706a24a9b4164d9c311286f311f.jpg" alt="Amara Ojemba" class="w-full h-64 object-cover">
+                                </div>
+                                <h3 class="text-xl font-bold mb-2">Amara Ojemba</h3>
+                                <p class="text-orange-400 mb-3">Digital Marketing Strategist</p>
+                                <p class="text-gray-400 text-sm mb-4">Nigeria's leading voice in social media marketing with 2.5M+ followers across platforms.</p>
+                                <div class="flex justify-between items-center text-sm">
+                                    <span class="text-gray-500">Followers: 2.5M+</span>
+                                    <span class="text-orange-400">Book Speaker</span>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="splide__slide">
+                            <div class="speaker-card glass p-6 mx-4" data-speaker="kennedy-kimani">
+                                <div class="mb-4 overflow-hidden rounded-lg">
+                                    <img src="https://kimi-web-img.moonshot.cn/img/businessafricaonline.com/31d96a970a8cc19fdfeb00abae3cc5af9ab4c990.jpg" alt="Kennedy Kimani" class="w-full h-64 object-cover">
+                                </div>
+                                <h3 class="text-xl font-bold mb-2">Kennedy Kimani</h3>
+                                <p class="text-orange-400 mb-3">Tech Innovation Speaker</p>
+                                <p class="text-gray-400 text-sm mb-4">Kenya's premier tech influencer bridging African innovation with global opportunities.</p>
+                                <div class="flex justify-between items-center text-sm">
+                                    <span class="text-gray-500">Followers: 1.8M+</span>
+                                    <span class="text-orange-400">Book Speaker</span>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="splide__slide">
+                            <div class="speaker-card glass p-6 mx-4" data-speaker="zola-madikizela">
+                                <div class="mb-4 overflow-hidden rounded-lg">
+                                    <img src="https://kimi-web-img.moonshot.cn/img/www.theafricaceoforum.com/2a6998d4894e98fcfc289a9f241584cdab2ba26d.jpg" alt="Zola Madikizela" class="w-full h-64 object-cover">
+                                </div>
+                                <h3 class="text-xl font-bold mb-2">Zola Madikizela</h3>
+                                <p class="text-orange-400 mb-3">Entrepreneurship Advocate</p>
+                                <p class="text-gray-400 text-sm mb-4">South Africa's business mentor empowering African entrepreneurs through digital platforms.</p>
+                                <div class="flex justify-between items-center text-sm">
+                                    <span class="text-gray-500">Followers: 1.2M+</span>
+                                    <span class="text-orange-400">Book Speaker</span>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="splide__slide">
+                            <div class="speaker-card glass p-6 mx-4" data-speaker="fatima-al-hassan">
+                                <div class="mb-4 overflow-hidden rounded-lg">
+                                    <img src="https://kimi-web-img.moonshot.cn/img/globalconference.ca/6ee91f707939bcc56693db2adee491deb8fc521b.jpg" alt="Fatima Al-Hassan" class="w-full h-64 object-cover">
+                                </div>
+                                <h3 class="text-xl font-bold mb-2">Fatima Al-Hassan</h3>
+                                <p class="text-orange-400 mb-3">Content Creation Expert</p>
+                                <p class="text-gray-400 text-sm mb-4">Ghana's content queen specializing in authentic African storytelling for global brands.</p>
+                                <div class="flex justify-between items-center text-sm">
+                                    <span class="text-gray-500">Followers: 3.1M+</span>
+                                    <span class="text-orange-400">Book Speaker</span>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- What We Provide Section -->
+    <section id="services" class="py-20 bg-gray-900">
+        <div class="container mx-auto px-6">
+            <h2 class="text-3xl md:text-4xl font-bold text-center mb-16 gradient-text">What We Provide</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-7xl mx-auto">
+                
+                <div class="service-card glass p-8">
+                    <div class="text-4xl mb-6">📱</div>
+                    <h3 class="text-2xl font-bold mb-4">Influencer Marketing</h3>
+                    <p class="text-gray-400 mb-6">Connect with authentic African influencers who understand local markets and can drive real engagement for your brand.</p>
+                    <ul class="text-sm text-gray-500 space-y-2 mb-6">
+                        <li>• Micro & macro influencer matching</li>
+                        <li>• Campaign strategy development</li>
+                        <li>• Performance tracking & analytics</li>
+                        <li>• Cultural authenticity consulting</li>
+                    </ul>
+                    <div class="text-orange-400 font-semibold">Starting from $2,500</div>
+                </div>
+
+                <div class="service-card glass p-8">
+                    <div class="text-4xl mb-6">🎥</div>
+                    <h3 class="text-2xl font-bold mb-4">Content Creation</h3>
+                    <p class="text-gray-400 mb-6">Professional content that resonates with African audiences while maintaining global appeal and brand consistency.</p>
+                    <ul class="text-sm text-gray-500 space-y-2 mb-6">
+                        <li>• Video production & editing</li>
+                        <li>• Social media content strategy</li>
+                        <li>• Photography & graphic design</li>
+                        <li>• Multi-platform optimization</li>
+                    </ul>
+                    <div class="text-orange-400 font-semibold">Starting from $1,800</div>
+                </div>
+
+                <div class="service-card glass p-8">
+                    <div class="text-4xl mb-6">🎯</div>
+                    <h3 class="text-2xl font-bold mb-4">Brand Strategy</h3>
+                    <p class="text-gray-400 mb-6">Comprehensive brand positioning and market entry strategies tailored for African markets and consumers.</p>
+                    <ul class="text-sm text-gray-500 space-y-2 mb-6">
+                        <li>• Market research & analysis</li>
+                        <li>• Brand positioning strategy</li>
+                        <li>• Competitive landscape mapping</li>
+                        <li>• Go-to-market planning</li>
+                    </ul>
+                    <div class="text-orange-400 font-semibold">Starting from $3,200</div>
+                </div>
+
+                <div class="service-card glass p-8">
+                    <div class="text-4xl mb-6">📊</div>
+                    <h3 class="text-2xl font-bold mb-4">Analytics & Insights</h3>
+                    <p class="text-gray-400 mb-6">Data-driven insights and performance analytics to optimize your influencer marketing ROI across African markets.</p>
+                    <ul class="text-sm text-gray-500 space-y-2 mb-6">
+                        <li>• Real-time campaign monitoring</li>
+                        <li>• ROI tracking & reporting</li>
+                        <li>• Audience demographics analysis</li>
+                        <li>• Performance optimization</li>
+                    </ul>
+                    <div class="text-orange-400 font-semibold">Starting from $950</div>
+                </div>
+
+                <div class="service-card glass p-8">
+                    <div class="text-4xl mb-6">🤝</div>
+                    <h3 class="text-2xl font-bold mb-4">Partnership Management</h3>
+                    <p class="text-gray-400 mb-6">End-to-end partnership management from influencer discovery to campaign execution and relationship building.</p>
+                    <ul class="text-sm text-gray-500 space-y-2 mb-6">
+                        <li>• Influencer vetting & onboarding</li>
+                        <li>• Contract negotiation</li>
+                        <li>• Campaign coordination</li>
+                        <li>• Relationship management</li>
+                    </ul>
+                    <div class="text-orange-400 font-semibold">Starting from $1,500</div>
+                </div>
+
+                <div class="service-card glass p-8">
+                    <div class="text-4xl mb-6">🚀</div>
+                    <h3 class="text-2xl font-bold mb-4">Platform Growth</h3>
+                    <p class="text-gray-400 mb-6">Accelerate your social media presence with proven growth strategies tailored for African audience engagement.</p>
+                    <ul class="text-sm text-gray-500 space-y-2 mb-6">
+                        <li>• Follower growth strategies</li>
+                        <li>• Engagement optimization</li>
+                        <li>• Content calendar planning</li>
+                        <li>• Community management</li>
+                    </ul>
+                    <div class="text-orange-400 font-semibold">Starting from $1,200</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Our Partners Section -->
+    <section id="partners" class="py-20 bg-gray-800/30">
+        <div class="container mx-auto px-6">
+            <h2 class="text-3xl md:text-4xl font-bold text-center mb-16 gradient-text">Our Partners</h2>
+            
+            <!-- Partner Filter Buttons -->
+            <div class="flex flex-wrap justify-center gap-4 mb-12">
+                <button class="filter-btn glass px-6 py-3 rounded-lg font-semibold active" data-filter="all">
+                    All Partners
+                </button>
+                <button class="filter-btn glass px-6 py-3 rounded-lg font-semibold" data-filter="tech">
+                    Technology
+                </button>
+                <button class="filter-btn glass px-6 py-3 rounded-lg font-semibold" data-filter="fashion">
+                    Fashion
+                </button>
+                <button class="filter-btn glass px-6 py-3 rounded-lg font-semibold" data-filter="food">
+                    Food & Beverage
+                </button>
+                <button class="filter-btn glass px-6 py-3 rounded-lg font-semibold" data-filter="finance">
+                    Finance
+                </button>
+            </div>
+
+            <!-- Partners Carousel -->
+            <div class="splide" id="partners-carousel">
+                <div class="splide__track">
+                    <ul class="splide__list">
+                        <li class="splide__slide">
+                            <div class="partner-logo glass p-6 mx-4 text-center" data-category="tech">
+                                <img src="https://kimi-web-img.moonshot.cn/img/upload.wikimedia.org/ec46e462013f08000b7ca7442832200d1a729a6c.png" alt="Tech Partner" class="w-24 h-24 object-contain mx-auto mb-4">
+                                <h4 class="font-semibold">AfroTech Solutions</h4>
+                                <p class="text-sm text-gray-400">Leading African tech platform</p>
+                            </div>
+                        </li>
+                        <li class="splide__slide">
+                            <div class="partner-logo glass p-6 mx-4 text-center" data-category="fashion">
+                                <img src="https://kimi-web-img.moonshot.cn/img/cdn.taggbox.com/fdcf254bddbfb264ee54acfb693a212940584786.png" alt="Fashion Partner" class="w-24 h-24 object-contain mx-auto mb-4">
+                                <h4 class="font-semibold">Ankara Style Co.</h4>
+                                <p class="text-sm text-gray-400">Modern African fashion</p>
+                            </div>
+                        </li>
+                        <li class="splide__slide">
+                            <div class="partner-logo glass p-6 mx-4 text-center" data-category="food">
+                                <img src="https://kimi-web-img.moonshot.cn/img/media.licdn.com/025b6e66fe4586817760765e47078cb954499527" alt="Food Partner" class="w-24 h-24 object-contain mx-auto mb-4">
+                                <h4 class="font-semibold">Taste of Africa</h4>
+                                <p class="text-sm text-gray-400">Authentic African cuisine</p>
+                            </div>
+                        </li>
+                        <li class="splide__slide">
+                            <div class="partner-logo glass p-6 mx-4 text-center" data-category="finance">
+                                <img src="https://kimi-web-img.moonshot.cn/img/kfai-documents.s3.us-east-1.amazonaws.com/495f4d964b0a94d8a6129e1e869b3c28a81b1085.jpg" alt="Finance Partner" class="w-24 h-24 object-contain mx-auto mb-4">
+                                <h4 class="font-semibold">M-Pesa Global</h4>
+                                <p class="text-sm text-gray-400">Mobile money solutions</p>
+                            </div>
+                        </li>
+                        <li class="splide__slide">
+                            <div class="partner-logo glass p-6 mx-4 text-center" data-category="tech">
+                                <img src="https://kimi-web-img.moonshot.cn/img/www.wordstream.com/e940ae26db1b847705b9587778f8738e8422be19.webp" alt="Tech Partner 2" class="w-24 h-24 object-contain mx-auto mb-4">
+                                <h4 class="font-semibold">Digital Africa</h4>
+                                <p class="text-sm text-gray-400">Digital transformation</p>
+                            </div>
+                        </li>
+                        <li class="splide__slide">
+                            <div class="partner-logo glass p-6 mx-4 text-center" data-category="fashion">
+                                <img src="https://kimi-web-img.moonshot.cn/img/www.prgltd.co.uk/5c5ae9bbf4c3ef7a6b97d36c6de98e91432254aa.jpg" alt="Fashion Partner 2" class="w-24 h-24 object-contain mx-auto mb-4">
+                                <h4 class="font-semibold">Ubuntu Fashion</h4>
+                                <p class="text-sm text-gray-400">Sustainable fashion</p>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Addis Ababa Section -->
+    <section id="addis-ababa" class="py-20 bg-gray-900">
+        <div class="container mx-auto px-6">
+            <div class="max-w-6xl mx-auto">
+                <h2 class="text-3xl md:text-4xl font-bold text-center mb-16 gradient-text">Addis Ababa Hub</h2>
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+                    <div>
+                        <h3 class="text-2xl font-bold mb-6">East Africa's Influencer Capital</h3>
+                        <p class="text-gray-400 mb-6">
+                            Addis Ababa has emerged as the epicenter of East Africa's digital revolution. Our hub connects 
+                            brands with Ethiopia's most influential voices, from tech innovators to cultural ambassadors.
+                        </p>
+                        <div class="space-y-4 mb-8">
+                            <div class="flex items-center">
+                                <div class="w-3 h-3 bg-orange-400 rounded-full mr-4"></div>
+                                <span>500+ verified Ethiopian influencers</span>
+                            </div>
+                            <div class="flex items-center">
+                                <div class="w-3 h-3 bg-orange-400 rounded-full mr-4"></div>
+                                <span>Multi-platform expertise (Instagram, TikTok, YouTube)</span>
+                            </div>
+                            <div class="flex items-center">
+                                <div class="w-3 h-3 bg-orange-400 rounded-full mr-4"></div>
+                                <span>Cultural authenticity and local market knowledge</span>
+                            </div>
+                            <div class="flex items-center">
+                                <div class="w-3 h-3 bg-orange-400 rounded-full mr-4"></div>
+                                <span>Real-time campaign analytics and insights</span>
+                            </div>
+                        </div>
+                        <a href="#registration" class="cta-button px-6 py-3 rounded-lg font-semibold text-white inline-block">
+                            Explore Addis Hub
+                        </a>
+                    </div>
+                    <div class="glass p-8">
+                        <h4 class="text-xl font-bold mb-6 gradient-text">Market Insights</h4>
+                        <div class="space-y-6">
+                            <div>
+                                <div class="flex justify-between mb-2">
+                                    <span>Social Media Penetration</span>
+                                    <span class="text-orange-400">78%</span>
+                                </div>
+                                <div class="w-full bg-gray-700 rounded-full h-2">
+                                    <div class="bg-orange-400 h-2 rounded-full" style="width: 78%"></div>
+                                </div>
+                            </div>
+                            <div>
+                                <div class="flex justify-between mb-2">
+                                    <span>Influencer Engagement Rate</span>
+                                    <span class="text-orange-400">12.3%</span>
+                                </div>
+                                <div class="w-full bg-gray-700 rounded-full h-2">
+                                    <div class="bg-orange-400 h-2 rounded-full" style="width: 85%"></div>
+                                </div>
+                            </div>
+                            <div>
+                                <div class="flex justify-between mb-2">
+                                    <span>Brand Partnership Growth</span>
+                                    <span class="text-orange-400">156%</span>
+                                </div>
+                                <div class="w-full bg-gray-700 rounded-full h-2">
+                                    <div class="bg-orange-400 h-2 rounded-full" style="width: 90%"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Registration Section -->
+    <section id="registration" class="py-20 bg-gray-800/30">
+        <div class="container mx-auto px-6">
+            <div class="max-w-4xl mx-auto text-center">
+                <h2 class="text-3xl md:text-4xl font-bold mb-8 gradient-text">Join Our Network</h2>
+                <p class="text-xl text-gray-400 mb-12">
+                    Whether you're an influencer looking to grow or a brand seeking authentic African voices, 
+                    we're here to connect you with the right opportunities.
+                </p>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <div class="glass p-8">
+                        <div class="text-4xl mb-4">🌟</div>
+                        <h3 class="text-2xl font-bold mb-4">For Influencers</h3>
+                        <p class="text-gray-400 mb-6">
+                            Join Africa's premier influencer network and connect with global brands seeking authentic African voices.
+                        </p>
+                        <ul class="text-sm text-gray-500 space-y-2 mb-6 text-left">
+                            <li>• Access to premium brand partnerships</li>
+                            <li>• Professional development workshops</li>
+                            <li>• Revenue optimization support</li>
+                            <li>• Community networking events</li>
+                        </ul>
+                        <button class="cta-button w-full py-3 rounded-lg font-semibold text-white" onclick="openRegistrationModal('influencer')">
+                            Register as Influencer
+                        </button>
+                    </div>
+                    
+                    <div class="glass p-8">
+                        <div class="text-4xl mb-4">🏢</div>
+                        <h3 class="text-2xl font-bold mb-4">For Brands</h3>
+                        <p class="text-gray-400 mb-6">
+                            Discover and collaborate with Africa's most influential voices to authentically reach your target audience.
+                        </p>
+                        <ul class="text-sm text-gray-500 space-y-2 mb-6 text-left">
+                            <li>• Curated influencer matching</li>
+                            <li>• Campaign management support</li>
+                            <li>• Performance analytics</li>
+                            <li>• Cultural consulting services</li>
+                        </ul>
+                        <button class="cta-button w-full py-3 rounded-lg font-semibold text-white" onclick="openRegistrationModal('brand')">
+                            Register as Brand
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Speaker Modal -->
+    <div id="speaker-modal" class="modal">
+        <div class="modal-content glass-dark p-8 m-4 max-w-4xl">
+            <div class="flex justify-between items-center mb-6">
+                <h2 id="speaker-modal-title" class="text-3xl font-bold gradient-text"></h2>
+                <button id="close-speaker-modal" class="text-gray-400 hover:text-white text-2xl">&times;</button>
+            </div>
+            <div id="speaker-modal-body">
+                <!-- Dynamic content will be loaded here -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Registration Modal -->
+    <div id="registration-modal" class="modal">
+        <div class="modal-content glass-dark p-8 m-4 max-w-2xl">
+            <div class="flex justify-between items-center mb-6">
+                <h2 id="registration-modal-title" class="text-2xl font-bold gradient-text">Registration</h2>
+                <button id="close-registration-modal" class="text-gray-400 hover:text-white text-2xl">&times;</button>
+            </div>
+            <div id="registration-modal-body">
+                <!-- Registration form will be loaded here -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 py-12">
+        <div class="container mx-auto px-6 text-center">
+            <div class="glass p-8 max-w-2xl mx-auto mb-8">
+                <h3 class="text-2xl font-bold gradient-text mb-4">Ready to Amplify Your Voice?</h3>
+                <p class="text-gray-400 mb-6">
+                    Join Africa's most dynamic influencer network and connect with opportunities that matter.
+                </p>
+                <a href="#registration" class="cta-button px-8 py-4 rounded-lg font-semibold text-white inline-block">
+                    Get Started Today
+                </a>
+            </div>
+            <div class="text-gray-500">
+                <p>&copy; 2024 African Social Media Influencer Hub. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="main.js"></script>
+</body>
+</html>
