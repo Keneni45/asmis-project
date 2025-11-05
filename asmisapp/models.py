@@ -54,3 +54,28 @@ class Brand(models.Model):
 
     def __str__(self):
         return self.company_name
+
+class KeynoteSpeaker(models.Model):
+    name = models.CharField(max_length=100)
+    title = models.CharField(max_length=100)
+    bio = models.TextField()
+    image = models.ImageField(upload_to='speakers/')
+    followers = models.CharField(max_length=50)
+
+    def __str__(self):
+        return self.name
+
+class Partner(models.Model):
+    CATEGORY_CHOICES = [
+        ('tech', 'Technology'),
+        ('fashion', 'Fashion'),
+        ('food', 'Food & Beverage'),
+        ('finance', 'Finance'),
+    ]
+    name = models.CharField(max_length=100)
+    description = models.CharField(max_length=255)
+    logo = models.ImageField(upload_to='partners/')
+    category = models.CharField(max_length=20, choices=CATEGORY_CHOICES)
+
+    def __str__(self):
+        return self.name

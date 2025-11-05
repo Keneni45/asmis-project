@@ -1,9 +1,11 @@
 from django.shortcuts import render, redirect
 from django.http import JsonResponse
-from .models import Influencer, Brand
+from .models import Influencer, Brand, KeynoteSpeaker, Partner
 
 def index(request):
-    return render(request, 'index.html')
+    speakers = KeynoteSpeaker.objects.all()
+    partners = Partner.objects.all()
+    return render(request, 'index.html', {'speakers': speakers, 'partners': partners})
 
 def influencer_registration(request):
     if request.method == 'POST':

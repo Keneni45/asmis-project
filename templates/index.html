@@ -354,62 +354,22 @@
             <div class="splide" id="speakers-carousel">
                 <div class="splide__track">
                     <ul class="splide__list">
+                        {% for speaker in speakers %}
                         <li class="splide__slide">
-                            <div class="speaker-card glass p-6 mx-4" data-speaker="amara-ojemba">
+                            <div class="speaker-card glass p-6 mx-4" data-speaker="{{ speaker.name|slugify }}">
                                 <div class="mb-4 overflow-hidden rounded-lg">
-                                    <img src="https://kimi-web-img.moonshot.cn/img/blacknet.co.uk/646d9592b5b12706a24a9b4164d9c311286f311f.jpg" alt="Amara Ojemba" class="w-full h-64 object-cover">
+                                    <img src="{{ speaker.image.url }}" alt="{{ speaker.name }}" class="w-full h-64 object-cover">
                                 </div>
-                                <h3 class="text-xl font-bold mb-2">Amara Ojemba</h3>
-                                <p class="text-orange-400 mb-3">Digital Marketing Strategist</p>
-                                <p class="text-gray-400 text-sm mb-4">Nigeria's leading voice in social media marketing with 2.5M+ followers across platforms.</p>
+                                <h3 class="text-xl font-bold mb-2">{{ speaker.name }}</h3>
+                                <p class="text-orange-400 mb-3">{{ speaker.title }}</p>
+                                <p class="text-gray-400 text-sm mb-4">{{ speaker.bio }}</p>
                                 <div class="flex justify-between items-center text-sm">
-                                    <span class="text-gray-500">Followers: 2.5M+</span>
+                                    <span class="text-gray-500">Followers: {{ speaker.followers }}</span>
                                     <span class="text-orange-400">Book Speaker</span>
                                 </div>
                             </div>
                         </li>
-                        <li class="splide__slide">
-                            <div class="speaker-card glass p-6 mx-4" data-speaker="kennedy-kimani">
-                                <div class="mb-4 overflow-hidden rounded-lg">
-                                    <img src="https://kimi-web-img.moonshot.cn/img/businessafricaonline.com/31d96a970a8cc19fdfeb00abae3cc5af9ab4c990.jpg" alt="Kennedy Kimani" class="w-full h-64 object-cover">
-                                </div>
-                                <h3 class="text-xl font-bold mb-2">Kennedy Kimani</h3>
-                                <p class="text-orange-400 mb-3">Tech Innovation Speaker</p>
-                                <p class="text-gray-400 text-sm mb-4">Kenya's premier tech influencer bridging African innovation with global opportunities.</p>
-                                <div class="flex justify-between items-center text-sm">
-                                    <span class="text-gray-500">Followers: 1.8M+</span>
-                                    <span class="text-orange-400">Book Speaker</span>
-                                </div>
-                            </div>
-                        </li>
-                        <li class="splide__slide">
-                            <div class="speaker-card glass p-6 mx-4" data-speaker="zola-madikizela">
-                                <div class="mb-4 overflow-hidden rounded-lg">
-                                    <img src="https://kimi-web-img.moonshot.cn/img/www.theafricaceoforum.com/2a6998d4894e98fcfc289a9f241584cdab2ba26d.jpg" alt="Zola Madikizela" class="w-full h-64 object-cover">
-                                </div>
-                                <h3 class="text-xl font-bold mb-2">Zola Madikizela</h3>
-                                <p class="text-orange-400 mb-3">Entrepreneurship Advocate</p>
-                                <p class="text-gray-400 text-sm mb-4">South Africa's business mentor empowering African entrepreneurs through digital platforms.</p>
-                                <div class="flex justify-between items-center text-sm">
-                                    <span class="text-gray-500">Followers: 1.2M+</span>
-                                    <span class="text-orange-400">Book Speaker</span>
-                                </div>
-                            </div>
-                        </li>
-                        <li class="splide__slide">
-                            <div class="speaker-card glass p-6 mx-4" data-speaker="fatima-al-hassan">
-                                <div class="mb-4 overflow-hidden rounded-lg">
-                                    <img src="https://kimi-web-img.moonshot.cn/img/globalconference.ca/6ee91f707939bcc56693db2adee491deb8fc521b.jpg" alt="Fatima Al-Hassan" class="w-full h-64 object-cover">
-                                </div>
-                                <h3 class="text-xl font-bold mb-2">Fatima Al-Hassan</h3>
-                                <p class="text-orange-400 mb-3">Content Creation Expert</p>
-                                <p class="text-gray-400 text-sm mb-4">Ghana's content queen specializing in authentic African storytelling for global brands.</p>
-                                <div class="flex justify-between items-center text-sm">
-                                    <span class="text-gray-500">Followers: 3.1M+</span>
-                                    <span class="text-orange-400">Book Speaker</span>
-                                </div>
-                            </div>
-                        </li>
+                        {% endfor %}
                     </ul>
                 </div>
             </div>
@@ -531,48 +491,15 @@
             <div class="splide" id="partners-carousel">
                 <div class="splide__track">
                     <ul class="splide__list">
+                        {% for partner in partners %}
                         <li class="splide__slide">
-                            <div class="partner-logo glass p-6 mx-4 text-center" data-category="tech">
-                                <img src="https://kimi-web-img.moonshot.cn/img/upload.wikimedia.org/ec46e462013f08000b7ca7442832200d1a729a6c.png" alt="Tech Partner" class="w-24 h-24 object-contain mx-auto mb-4">
-                                <h4 class="font-semibold">AfroTech Solutions</h4>
-                                <p class="text-sm text-gray-400">Leading African tech platform</p>
+                            <div class="partner-logo glass p-6 mx-4 text-center" data-category="{{ partner.category }}">
+                                <img src="{{ partner.logo.url }}" alt="{{ partner.name }}" class="w-24 h-24 object-contain mx-auto mb-4">
+                                <h4 class="font-semibold">{{ partner.name }}</h4>
+                                <p class="text-sm text-gray-400">{{ partner.description }}</p>
                             </div>
                         </li>
-                        <li class="splide__slide">
-                            <div class="partner-logo glass p-6 mx-4 text-center" data-category="fashion">
-                                <img src="https://kimi-web-img.moonshot.cn/img/cdn.taggbox.com/fdcf254bddbfb264ee54acfb693a212940584786.png" alt="Fashion Partner" class="w-24 h-24 object-contain mx-auto mb-4">
-                                <h4 class="font-semibold">Ankara Style Co.</h4>
-                                <p class="text-sm text-gray-400">Modern African fashion</p>
-                            </div>
-                        </li>
-                        <li class="splide__slide">
-                            <div class="partner-logo glass p-6 mx-4 text-center" data-category="food">
-                                <img src="https://kimi-web-img.moonshot.cn/img/media.licdn.com/025b6e66fe4586817760765e47078cb954499527" alt="Food Partner" class="w-24 h-24 object-contain mx-auto mb-4">
-                                <h4 class="font-semibold">Taste of Africa</h4>
-                                <p class="text-sm text-gray-400">Authentic African cuisine</p>
-                            </div>
-                        </li>
-                        <li class="splide__slide">
-                            <div class="partner-logo glass p-6 mx-4 text-center" data-category="finance">
-                                <img src="https://kimi-web-img.moonshot.cn/img/kfai-documents.s3.us-east-1.amazonaws.com/495f4d964b0a94d8a6129e1e869b3c28a81b1085.jpg" alt="Finance Partner" class="w-24 h-24 object-contain mx-auto mb-4">
-                                <h4 class="font-semibold">M-Pesa Global</h4>
-                                <p class="text-sm text-gray-400">Mobile money solutions</p>
-                            </div>
-                        </li>
-                        <li class="splide__slide">
-                            <div class="partner-logo glass p-6 mx-4 text-center" data-category="tech">
-                                <img src="https://kimi-web-img.moonshot.cn/img/www.wordstream.com/e940ae26db1b847705b9587778f8738e8422be19.webp" alt="Tech Partner 2" class="w-24 h-24 object-contain mx-auto mb-4">
-                                <h4 class="font-semibold">Digital Africa</h4>
-                                <p class="text-sm text-gray-400">Digital transformation</p>
-                            </div>
-                        </li>
-                        <li class="splide__slide">
-                            <div class="partner-logo glass p-6 mx-4 text-center" data-category="fashion">
-                                <img src="https://kimi-web-img.moonshot.cn/img/www.prgltd.co.uk/5c5ae9bbf4c3ef7a6b97d36c6de98e91432254aa.jpg" alt="Fashion Partner 2" class="w-24 h-24 object-contain mx-auto mb-4">
-                                <h4 class="font-semibold">Ubuntu Fashion</h4>
-                                <p class="text-sm text-gray-400">Sustainable fashion</p>
-                            </div>
-                        </li>
+                        {% endfor %}
                     </ul>
                 </div>
             </div>
