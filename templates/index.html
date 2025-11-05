@@ -572,6 +572,13 @@
                             </div>
                         </div>
                     </div>
+                    {% if featured_image %}
+                    <div class="glass p-8 mt-8 lg:mt-0">
+                        <h4 class="text-xl font-bold mb-6 gradient-text">Featured</h4>
+                        <img src="{{ featured_image.image.url }}" alt="{{ featured_image.title }}" class="w-full h-64 object-cover rounded-lg">
+                        <p class="text-center mt-4 text-gray-400">{{ featured_image.title }}</p>
+                    </div>
+                    {% endif %}
                 </div>
             </div>
         </div>
