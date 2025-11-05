@@ -1,10 +1,19 @@
 from django.shortcuts import render, redirect
 from django.http import JsonResponse
-from .models import Influencer, Brand, KeynoteSpeaker, Partner
+from .models import Influencer, Brand, KeynoteSpeaker, Partner, Subscription
+from .forms import SubscriptionForm
 
 def index(request):
     speakers = KeynoteSpeaker.objects.all()
     partners = Partner.objects.all()
+    if request.method == 'POST':
+        form = SubscriptionForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return render(request, 'index.html', {'speakers': speakers, 'partners': partners, 'subscribe_success': True})
+        else:
+            return render(request, 'index.html', {'speakers': speakers, 'partners': partners, 'subscribe_error': True, 'form': form})
+
     return render(request, 'index.html', {'speakers': speakers, 'partners': partners})
 
 def influencer_registration(request):
